@@ -128,11 +128,22 @@ public class HelloApplication extends Application {
         addMaxDimensionBoton(btnIgual);
 
 
-
+        /*esto es para añadir los botones al gridpane*/
         gridPane.getChildren().addAll(btn0, btn1, btn2, btn3, btn4, btn5, btn6,
                 btn7, btn8, btn9, btnSuma, btnResta, btnMulti, btnDivision, textoOperaciones, btnIgual, btnBorrar);
-        /*esto es para añadir los botones al gridpane*/
 
+
+        /*esto es para que sea redimensionable en vertical y horizontal*/
+        GridPane.setVgrow(textoOperaciones ,Priority.ALWAYS);//con la prioridad always se hace siempre que se expanda la ventana
+        GridPane.setVgrow(btn7 ,Priority.ALWAYS);
+        GridPane.setVgrow(btn4 ,Priority.ALWAYS);
+        GridPane.setVgrow(btn1 ,Priority.ALWAYS);
+        GridPane.setVgrow(btnBorrar ,Priority.ALWAYS);
+
+        GridPane.setHgrow(btn7 ,Priority.ALWAYS);
+        GridPane.setHgrow(btn8 ,Priority.ALWAYS);
+        GridPane.setHgrow(btn9 ,Priority.ALWAYS);
+        GridPane.setHgrow(btnSuma ,Priority.ALWAYS);
 
         Scene scene = new Scene(gridPane, 300, 250);
 
