@@ -2,12 +2,14 @@ package com.example.gridpane;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -56,6 +58,7 @@ public class HelloApplication extends Application {
 
         GridPane gridPane = new GridPane(); //creación del gridpane
 
+        //alineado al centro
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(5);
         gridPane.setVgap(5);
@@ -145,8 +148,11 @@ public class HelloApplication extends Application {
         GridPane.setHgrow(btn9 ,Priority.ALWAYS);
         GridPane.setHgrow(btnSuma ,Priority.ALWAYS);
 
-        Scene scene = new Scene(gridPane, 300, 250);
+        //utilizo stackPane para un poco de margen
+        StackPane.setMargin(gridPane, new Insets(10));
+        StackPane root = new StackPane(gridPane);
 
+        Scene scene = new Scene(root, 300, 250);
 
         stage.setTitle("Calculadora GridPane");
         stage.setScene(scene);
