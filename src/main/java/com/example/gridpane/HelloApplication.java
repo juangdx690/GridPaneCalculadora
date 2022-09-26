@@ -148,6 +148,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(gridPane, 300, 250);
 
 
+        stage.setTitle("Calculadora GridPane");
         stage.setScene(scene);
         stage.show();
 
