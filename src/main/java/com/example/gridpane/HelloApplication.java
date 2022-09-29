@@ -1,12 +1,18 @@
 package com.example.gridpane;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -14,8 +20,60 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class HelloApplication extends Application {
+public class HelloApplication extends Application   {
+
+    public String operacion(String opera){
+        int resultado, num1, num2;
+        String result="";
+        if (opera.contains("+")){
+            String[] parts = opera.split("\\+");
+            opera="";
+            num1= Integer.parseInt(parts[0]);
+            num2= Integer.parseInt(parts[1]);
+            resultado = num1 + num2;
+            result = String.valueOf(resultado);
+        }
+
+        if (opera.contains("-")){
+            String[] parts = opera.split("\\-");
+            opera="";
+            num1= Integer.parseInt(parts[0]);
+            num2= Integer.parseInt(parts[1]);
+            resultado = num1 - num2;
+            result = String.valueOf(resultado);
+        }
+
+        if (opera.contains("x")){
+            String[] parts = opera.split("x");
+            opera="";
+            num1= Integer.parseInt(parts[0]);
+            num2= Integer.parseInt(parts[1]);
+            resultado = num1 * num2;
+            result = String.valueOf(resultado);
+        }
+
+        if (opera.contains("/")){
+            String[] parts = opera.split("\\/");
+            opera="";
+            num1= Integer.parseInt(parts[0]);
+            num2= Integer.parseInt(parts[1]);
+
+            if (num2==0){
+                result = "no se puede dividir entre 0";
+            }else{
+                resultado = num1 / num2;
+                result = String.valueOf(resultado);
+            }
+
+        }
+
+return result;
+
+    }
 
     //metodo para las dimensiones de los botones
     public void adddimensionesBoton(Button btn, int ancho, int alto) {
@@ -47,7 +105,7 @@ public class HelloApplication extends Application {
         //botones operaciones
         Button btnSuma = new Button("+");
         Button btnResta = new Button("-");
-        Button btnMulti = new Button("X");
+        Button btnMulti = new Button("x");
         Button btnDivision = new Button("/");
 
         Button btnIgual = new Button("=");
@@ -56,7 +114,28 @@ public class HelloApplication extends Application {
         //operaciones
         TextField textoOperaciones = new TextField();
 
+        textoOperaciones.setAlignment(Pos.CENTER_RIGHT);
+
         GridPane gridPane = new GridPane(); //creación del gridpane
+
+        gridPane.addEventFilter(MouseEvent.MOUSE_CLICKED,
+                event -> {
+                    String texto =  ((Button) event.getTarget()).getText();
+
+
+                    if (Character.isDigit(texto.charAt(0)) || texto.equals("+") ||texto.equals("-")||texto.equals("x")||texto.equals("/")){
+                        textoOperaciones.setText(textoOperaciones.getText()+texto);
+                    }else {
+                        if (texto.equals("C")){
+                            textoOperaciones.setText("");
+                        }
+                        if (texto.equals("=")){
+                            textoOperaciones.setText(operacion(textoOperaciones.getText()));
+                        }
+                    }
+
+
+                });
 
         //alineado al centro
         gridPane.setAlignment(Pos.CENTER);
@@ -74,15 +153,15 @@ public class HelloApplication extends Application {
         GridPane.setConstraints(btnSuma, 3, 1);
 
         //fila 2
-        GridPane.setConstraints(btn6, 0, 2);
+        GridPane.setConstraints(btn6, 2, 2);
         GridPane.setConstraints(btn5, 1, 2);
-        GridPane.setConstraints(btn4, 2, 2);
+        GridPane.setConstraints(btn4, 0, 2);
         GridPane.setConstraints(btnResta, 3, 2);
 
         //fila 3
-        GridPane.setConstraints(btn3, 0, 3);
+        GridPane.setConstraints(btn3, 2, 3);
         GridPane.setConstraints(btn2, 1, 3);
-        GridPane.setConstraints(btn1, 2, 3);
+        GridPane.setConstraints(btn1, 0, 3);
         GridPane.setConstraints(btnMulti, 3, 3);
 
         //fila 4
@@ -154,7 +233,14 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(root, 300, 250);
 
-        stage.setTitle("Calculadora GridPane");
+
+
+        HashMap<Button, String> lista = new HashMap<>();
+        lista.put(btn0, "0");
+        lista.put(btn1, "1");
+
+
+                stage.setTitle("Calculadora GridPane");
         stage.setScene(scene);
         stage.show();
 
@@ -163,4 +249,6 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+
 }
